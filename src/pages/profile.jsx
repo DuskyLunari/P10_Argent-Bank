@@ -1,5 +1,5 @@
-import { Layout } from "../components/layout.jsx";
-import { Checking } from "../components/checking.jsx";
+import { Layout } from "../components/Layout.jsx";
+import { Checking } from "../components/Checking.jsx";
 
 export function Profile() {
   return (
