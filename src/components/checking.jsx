@@ -1,9 +1,16 @@
 import React from 'react';
 
-export function Checking() {
+export function Checking({ title, balance, description }) {
     return (
-        <div>
-            <p>Placeholder Checking</p>
-        </div>
+        <section className="account">
+            <div className="account-content-wrapper">
+                <h3 className="account-title">{ title }</h3>
+                <p className="account-amount">{ balance }</p>
+                <p className="account-amount-description">{ description }</p>
+            </div>
+            <div className="account-content-wrapper cta">
+                <button className="transaction-button">View transaction</button>
+            </div>
+        </section>
     );
-}
+  }
