@@ -1,14 +1,13 @@
-import React from "react";
 import { Layout } from "../components/layout.jsx";
 import { Checking } from "../components/checking.jsx";
 
 export function Profile() {
   return (
     <Layout>
-     <main class="main bg-dark">
-      <div class="header">
+     <main className="main bg-dark">
+      <div className="header">
         <h1>Welcome back<br />Tony Jarvis!</h1>
-        <button class="edit-button">Edit Name</button>
+        <button className="edit-button">Edit Name</button>
       </div>
 
         <h2 className="sr-only">Accounts</h2>
