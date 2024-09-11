@@ -1,6 +1,6 @@
 import React from "react";
-import { Layout } from "../components/Layout.jsx";
-import { Checking } from "../components/Account.jsx";
+import { Layout } from "../components/layout.jsx";
+import { Checking } from "../components/checking.jsx";
 
 export function Profile() {
   return (
