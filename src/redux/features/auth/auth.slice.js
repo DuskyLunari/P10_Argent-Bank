@@ -29,3 +29,4 @@ const authSlice = createSlice({
 });
 
 export { authSlice };
+export const { logout } = authSlice.actions;
