@@ -14,9 +14,9 @@ export function Login() {
         }
     }, [token, navigate]);
 
-    const submit = (event) => {
+    const handleSubmit = (event) => {
         event.preventDefault();
-        const fd = new FormData(e.target);
+        const fd = new FormData(event.target);
 
         dispatch(
             loginAction({
