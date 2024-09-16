@@ -11,7 +11,7 @@ export function Login() {
     const { errorMessage, isLoading, token } = useSelector(state => state.auth);
 
     useEffect(() => {
-        if(token) {
+        if (token) {
             navigate("/profile");
         }
     }, [token, navigate]);
@@ -25,7 +25,7 @@ export function Login() {
                 email: fd.get("email"),
                 password: fd.get("password"),
             })
-        )
+        );
     };
 
     return (
@@ -37,17 +37,46 @@ export function Login() {
                     <form onSubmit={handleSubmit}>
                         <div className="input-wrapper">
                             <label htmlFor="username">Username</label>
-                            <input name="email" type="text" id="username" />
+                            <input 
+                                name="email" 
+                                type="text" 
+                                id="username" 
+                                defaultValue="tony@stark.com" 
+                                disabled={isLoading} 
+                            />
                         </div>
                         <div className="input-wrapper">
                             <label htmlFor="password">Password</label>
-                            <input name="password" type="password" id="password" />
+                            <input 
+                                name="password" 
+                                type="password" 
+                                id="password" 
+                                defaultValue="password123" 
+                                disabled={isLoading} 
+                            />
                         </div>
                         <div className="input-remember">
-                            <input type="checkbox" id="remember-me" />
+                            <input 
+                                type="checkbox" 
+                                id="remember-me" 
+                                disabled={isLoading} 
+                            />
                             <label htmlFor="remember-me">Remember me</label>
                         </div>
-                        <button type="submit" className="sign-in-button">Sign In</button>
+                        <button 
+                            type="submit" 
+                            className="sign-in-button" 
+                            disabled={isLoading}
+                        >
+                            {isLoading ? "Loading ..." : "Sign In"}
+                        </button>
+                        {errorMessage && (
+                            <p className="error-message">
+                                <i className="fa fa-exclamation-circle" aria-hidden="true"></i>
+                                {" "}
+                                {errorMessage}
+                            </p>
+                        )}
                     </form>
                 </section>
             </main>
