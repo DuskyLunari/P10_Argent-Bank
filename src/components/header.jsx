@@ -6,7 +6,9 @@ import { logout } from "../redux/features/auth/auth.slice";
 export function Header() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const token = useSelector((state) => state.auth.token);
+  const userName = useSelector((state) => state.user.userName);
 
   const handleLogout = () => {
     dispatch(logout());
@@ -29,7 +31,7 @@ export function Header() {
             <>
               <NavLink className="main-nav-item" to="/profile">
                 <i className="fa fa-user-circle"></i>
-                Tony
+                {userName}
               </NavLink>
               <NavLink 
                 className="main-nav-item"
