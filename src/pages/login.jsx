@@ -3,6 +3,8 @@ import { Layout } from "../components/layout";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
+import { loginAction } from "../redux/features/auth/auth.actions";
+
 export function Login() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -35,11 +37,11 @@ export function Login() {
                     <form onSubmit={handleSubmit}>
                         <div className="input-wrapper">
                             <label htmlFor="username">Username</label>
-                            <input type="text" id="username" />
+                            <input name="email" type="text" id="username" />
                         </div>
                         <div className="input-wrapper">
                             <label htmlFor="password">Password</label>
-                            <input type="password" id="password" />
+                            <input name="password" type="password" id="password" />
                         </div>
                         <div className="input-remember">
                             <input type="checkbox" id="remember-me" />
