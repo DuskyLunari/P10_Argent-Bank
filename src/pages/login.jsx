@@ -1,8 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
-import { Layout } from "../components/layout";
+import { Layout } from "../components/Layout";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-
 import { loginAction } from "../redux/features/auth/auth.actions";
 
 export function Login() {
