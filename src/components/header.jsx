@@ -30,8 +30,8 @@ export function Header() {
           {token && (
             <>
               <NavLink className="main-nav-item" to="/profile">
-                <i className="fa fa-user-circle"></i>
                 {userName}
+                <i className="fa fa-user-circle"></i>
               </NavLink>
               <NavLink 
                 className="main-nav-item"
@@ -41,15 +41,15 @@ export function Header() {
                   handleLogout();
                 }}
               >
-                <i className="fa fa-sign-out"></i>
                 Logout
+                <i className="fa fa-sign-out"></i>
               </NavLink>
             </>
           )}
           {!token && (
             <NavLink className="main-nav-item" to="/sign-in">
-              <i className="fa fa-user-circle"></i>
               Sign In
+              <i className="fa fa-user-circle"></i>
             </NavLink>
           )}
         </div>
