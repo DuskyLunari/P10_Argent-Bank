@@ -19,7 +19,6 @@ export const getUser = createAsyncThunk(
             });
 
             const data = await res.json();
-            console.log("API Response:", data);
 
             if (!res.ok) {
                 return rejectWithValue(data.message || "An error occurred");
@@ -35,20 +34,26 @@ export const getUser = createAsyncThunk(
 export const editUser = createAsyncThunk(
     "user/editUser",
     async (userPayload, { rejectWithValue }) => {
+      try {
         const res = await fetch("http://localhost:3001/api/v1/user/profile", {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(userPayload),
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${localStorage.getItem('token')}`,
+          },
+          body: JSON.stringify(userPayload),
         });
-
+  
         const data = await res.json();
-
+  
         if (!res.ok) {
-            return rejectWithValue(data.body.message);
+          return rejectWithValue(data.message || "An error occurred");
         }
-
+  
         return data.body;
+      } catch (error) {
+        return rejectWithValue("Network error");
+      }
     }
-);
+  );
+  
