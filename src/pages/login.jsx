@@ -1,9 +1,29 @@
+import { useDispatch, useSelector } from "react-redux";
 import { Layout } from "../components/layout";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 export function Login() {
-    const handleSubmit = (event) => {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const { errorMessage, isLoading, token } = useSelector(state => state.auth);
+
+    useEffect(() => {
+        if(token) {
+            navigate("/profile");
+        }
+    }, [token, navigate]);
+
+    const submit = (event) => {
         event.preventDefault();
-        // add login steps
+        const fd = new FormData(e.target);
+
+        dispatch(
+            loginAction({
+                email: fd.get("email"),
+                password: fd.get("password"),
+            })
+        )
     };
 
     return (
