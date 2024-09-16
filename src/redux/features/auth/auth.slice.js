@@ -23,7 +23,7 @@ const authSlice = createSlice({
         })
         .addCase(loginAction.rejected, (state, action) => {
             state.isLoading = false,
-            state.errorMessage = action.payload;
+            state.errorMessage = action.payload || "Incorrect username or password.";
         });
     }
 });
