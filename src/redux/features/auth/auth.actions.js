@@ -20,7 +20,7 @@ export const loginAction = createAsyncThunk(
             const data = await res.json();
 
             if (!res.ok) {
-                return rejectWithValue(data.body?.message || "An error occurred");
+                return rejectWithValue(data.body?.message || "Incorrect username or password");
             }
 
             localStorage.setItem('token', data.body?.token || "");
