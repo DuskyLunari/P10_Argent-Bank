@@ -9,25 +9,30 @@ const authSlice = createSlice({
         isLoading: false,
     },
     reducers: {
-        logout: logoutAction
+        login: (state, action) => {
+            state.token = action.payload.token;
+        },
+        logout: (state) => {
+            state.token = null;
+        },
     },
     extraReducers: (builder) => {
         builder
-        .addCase(loginAction.pending, (state) => {
-            state.isLoading = true;
-            state.errorMessage = null;
-        })
-        .addCase(loginAction.fulfilled, (state, action) => {
-            state.isLoading = false;
-            state.token = action.payload;
-            localStorage.setItem('token', action.payload);
-        })
-        .addCase(loginAction.rejected, (state, action) => {
-            state.isLoading = false,
-            state.errorMessage = action.payload || "Incorrect username or password.";
-        });
+            .addCase(loginAction.pending, (state) => {
+                state.isLoading = true;
+                state.errorMessage = null;
+            })
+            .addCase(loginAction.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.token = action.payload;
+                localStorage.setItem('token', action.payload);
+            })
+            .addCase(loginAction.rejected, (state, action) => {
+                state.isLoading = false,
+                    state.errorMessage = action.payload || "Incorrect username or password.";
+            });
     }
 });
 
-export { authSlice };
-export const { logout } = authSlice.actions;
+export const { login, logout } = authSlice.actions;
+export default authSlice.reducer;
