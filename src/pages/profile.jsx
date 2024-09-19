@@ -3,34 +3,53 @@ import { useDispatch, useSelector } from "react-redux";
 import { Layout } from "../components/Layout.jsx";
 import { Checking } from "../components/Checking.jsx";
 import { getUser, editUser } from "../redux/features/profile/profile.actions.js";
+import { toggleIsEditing, updateUserName } from "../redux/features/profile/profile.slice.js";
+import { useNavigate } from "react-router-dom";
 
 export function Profile() {
   const dispatch = useDispatch();
-  const [isEditing, setIsEditing] = useState(false);
+  const navigate = useNavigate();
   const [editableUserName, setEditableUserName] = useState("");
-
-  const { firstName, lastName, userName, isLoading, errorMessage } = useSelector((state) => state.user);
-
-  useEffect(() => {
-    dispatch(getUser());
-  }, [dispatch]);
+  
+  const { token } = useSelector(state => state.auth);
+  const { firstName, lastName, userName, isLoading, isEditing } = useSelector((state) => state.user);
 
   useEffect(() => {
-    setEditableUserName(userName);
-  }, [userName]);
+    if (token) {
+      dispatch(getUser({ token }));
+    } else {
+      navigate("/sign-in");
+    }
+  }, [dispatch, navigate, token]);  
 
-  const handleEditClick = () => {
-    setIsEditing(true);
-  };
+  useEffect(() => {
+    console.log("userName from state:", userName);
+    if (isEditing && userName) {
+      setEditableUserName(userName);
+    }
+  }, [isEditing, userName]);  
 
   const handleSave = () => {
-    dispatch(editUser({ userName: editableUserName }));
-    setIsEditing(false);
+    console.log("Saving userName:", editableUserName);
+    dispatch(editUser({ userPayload: { userName: editableUserName }, token }))
+      .then(() => {
+        dispatch(updateUserName(editableUserName));
+        dispatch(toggleIsEditing());
+      });
+  };   
+
+  const handleEditAction = () => {
+    if (isEditing) {
+      setEditableUserName(userName);
+      dispatch(toggleIsEditing());
+    } else {
+      dispatch(toggleIsEditing());
+    }
   };
 
-  const handleCancel = () => {
-    setIsEditing(false);
-  };
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <Layout>
@@ -71,7 +90,7 @@ export function Profile() {
                 </div>
                 <div className="form-buttons">
                   <button type="button" onClick={handleSave}>Save</button>
-                  <button type="button" onClick={handleCancel}>Cancel</button>
+                  <button type="button" onClick={handleEditAction}>Cancel</button>
                 </div>
               </form>
             </div>
@@ -81,7 +100,7 @@ export function Profile() {
                 Welcome back<br />
                 {firstName} {lastName}!
               </h1>
-              <button className="edit-button" onClick={handleEditClick}>Edit Name</button>
+              <button className="edit-button" onClick={handleEditAction}>Edit Name</button>
             </div>
           )}
         </div>

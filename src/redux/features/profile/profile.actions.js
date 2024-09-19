@@ -1,59 +1,58 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
 export const getUser = createAsyncThunk(
-    "user/getUser",
-    async (_, { rejectWithValue }) => {
-        const token = localStorage.getItem('token');
-
-        if (!token) {
-            return rejectWithValue("No token found");
-        }
-
-        try {
-            const res = await fetch("http://localhost:3001/api/v1/user/profile", {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${token}`,
-                },
-            });
-
-            const data = await res.json();
-
-            if (!res.ok) {
-                return rejectWithValue(data.message || "An error occurred");
-            }
-
-            return data;
-        } catch (error) {
-            return rejectWithValue("Network error");
-        }
+  "user/getUser",
+  async ( {token} , { rejectWithValue }) => {
+    if (!token) {
+      return rejectWithValue("No token found");
     }
+
+    try {
+      const res = await fetch("http://localhost:3001/api/v1/user/profile", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
+        },
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        return rejectWithValue(data.message || "An error occurred");
+      }
+
+      console.log("Fetched user data:", data);
+
+      return data;
+    } catch (error) {
+      return rejectWithValue("Network error");
+    }
+  }
 );
 
 export const editUser = createAsyncThunk(
-    "user/editUser",
-    async (userPayload, { rejectWithValue }) => {
-      try {
-        const res = await fetch("http://localhost:3001/api/v1/user/profile", {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${localStorage.getItem('token')}`,
-          },
-          body: JSON.stringify(userPayload),
-        });
-  
-        const data = await res.json();
-  
-        if (!res.ok) {
-          return rejectWithValue(data.message || "An error occurred");
-        }
-  
-        return data.body;
-      } catch (error) {
-        return rejectWithValue("Network error");
+  "user/editUser",
+  async (userPayload, { rejectWithValue }) => {
+    try {
+      const res = await fetch("http://localhost:3001/api/v1/user/profile", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${userPayload.token}`,
+        },
+        body: JSON.stringify(userPayload),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        return rejectWithValue(data.message || "An error occurred");
       }
+
+      return data.body;
+    } catch (error) {
+      return rejectWithValue("Network error");
     }
-  );
-  
+  }
+);
