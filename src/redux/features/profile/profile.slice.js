@@ -34,9 +34,17 @@ const profileSlice = createSlice({
       .addCase(getUser.rejected, (state) => {
         state.isLoading = false;
       })
+      
+      .addCase(editUser.pending, (state) => {
+        state.isLoading = true;
+      })
       .addCase(editUser.fulfilled, (state, action) => {
+        state.isLoading = false;
         state.userName = action.payload.userName;
-      });
+      })
+      .addCase(editUser.rejected, (state, action) => {
+        state.isLoading = false;
+      })
   },
 });
 

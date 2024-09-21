@@ -41,7 +41,7 @@ export const editUser = createAsyncThunk(
           "Content-Type": "application/json",
           "Authorization": `Bearer ${userPayload.token}`,
         },
-        body: JSON.stringify(userPayload),
+        body: JSON.stringify(userPayload.userPayload),
       });
 
       const data = await res.json();
