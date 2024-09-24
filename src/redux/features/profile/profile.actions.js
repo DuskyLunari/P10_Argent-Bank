@@ -33,15 +33,15 @@ export const getUser = createAsyncThunk(
 
 export const editUser = createAsyncThunk(
   "user/editUser",
-  async (userPayload, { rejectWithValue }) => {
+  async ({token, userName} , { rejectWithValue }) => {
     try {
       const res = await fetch("http://localhost:3001/api/v1/user/profile", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${userPayload.token}`,
+          "Authorization": `Bearer ${token}`,
         },
-        body: JSON.stringify(userPayload.userPayload),
+        body: JSON.stringify({userName}),
       });
 
       const data = await res.json();
