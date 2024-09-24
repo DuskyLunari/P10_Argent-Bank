@@ -22,29 +22,14 @@ export function Profile() {
     }
   }, [dispatch, navigate, token]);  
 
-  useEffect(() => {
-    console.log("userName from state:", userName);
-    if (isEditing && userName) {
-      setEditableUserName(userName);
-    }
-  }, [isEditing, userName]);  
-
-  const handleSave = () => {
-    console.log("Saving userName:", editableUserName);
-    dispatch(editUser({ userPayload: { userName: editableUserName }, token }))
-      .then(() => {
-        dispatch(updateUserName(editableUserName));
-        dispatch(toggleIsEditing());
-      });
+  const handleSave = (e) => {
+    e.preventDefault();
+    dispatch(editUser({ userName: editableUserName, token }))
+    dispatch(toggleIsEditing());
   };   
 
   const handleEditAction = () => {
-    if (isEditing) {
-      setEditableUserName(userName);
       dispatch(toggleIsEditing());
-    } else {
-      dispatch(toggleIsEditing());
-    }
   };
 
   if (isLoading) {
@@ -58,13 +43,13 @@ export function Profile() {
           {isEditing ? (
             <div className="form-container">
               <h1>Edit user info</h1>
-              <form>
+              <form onSubmit={handleSave}>
                 <div className="form-group">
                   <label htmlFor="userName">User Name:</label>
                   <input
                     type="text"
                     id="userName"
-                    value={editableUserName}
+                    placeholder={userName}
                     onChange={(e) => setEditableUserName(e.target.value)}
                   />
                 </div>
@@ -89,7 +74,7 @@ export function Profile() {
                   />
                 </div>
                 <div className="form-buttons">
-                  <button type="button" onClick={handleSave}>Save</button>
+                  <button type="submit">Save</button>
                   <button type="button" onClick={handleEditAction}>Cancel</button>
                 </div>
               </form>
